@@ -1,6 +1,6 @@
-import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getAnalytics } from 'firebase/analytics';
+import { initializeApp, type FirebaseApp } from 'firebase/app';
+import { getAuth, type Auth } from 'firebase/auth';
+import { getAnalytics, type Analytics } from 'firebase/analytics';
 
 // Check if we have valid Firebase configuration
 const hasValidConfig = import.meta.env.VITE_FIREBASE_API_KEY && 
@@ -8,9 +8,9 @@ const hasValidConfig = import.meta.env.VITE_FIREBASE_API_KEY &&
   import.meta.env.VITE_FIREBASE_PROJECT_ID &&
   import.meta.env.VITE_FIREBASE_PROJECT_ID !== 'demo-project-id';
 
-let app: unknown = null;
-let auth: unknown = null;
-let analytics: unknown = null;
+let app: FirebaseApp | null = null;
+let auth: Auth | null = null;
+let analytics: Analytics | null = null;
 
 if (hasValidConfig) {
   try {

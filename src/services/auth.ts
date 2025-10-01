@@ -4,7 +4,7 @@ import {
   signOut,
   onAuthStateChanged,
 } from 'firebase/auth';
-import type { User as FirebaseUser } from 'firebase/auth';
+import type { User as FirebaseUser, IdTokenResult } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import { analyticsService } from './analytics';
 
@@ -15,13 +15,16 @@ const createMockUser = (email: string): FirebaseUser => ({
   displayName: email.split('@')[0],
   emailVerified: true,
   isAnonymous: false,
+  phoneNumber: null,
+  photoURL: null,
+  providerId: 'firebase',
   metadata: {} as Record<string, unknown>,
   providerData: [],
   refreshToken: 'mock_token',
   tenantId: null,
   delete: async () => { },
   getIdToken: async () => 'mock_token',
-  getIdTokenResult: async () => ({} as Record<string, unknown>),
+  getIdTokenResult: async () => ({} as IdTokenResult),
   reload: async () => { },
   toJSON: () => ({}),
 });
@@ -79,7 +82,6 @@ export const authService = {
 
   onAuthStateChange: (callback: (user: FirebaseUser | null) => void) => {
     if (!auth) {
-
       return () => { };
     }
     return onAuthStateChanged(auth, callback);
